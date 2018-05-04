@@ -15,6 +15,8 @@ import { ChoosestorePage } from '../pages/choosestore/choosestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseProvider } from './../providers/firebase/firebase';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 var firebaseConfig = {
   apiKey: "AIzaSyCcW9VRqCQ_YUAuSYDp35IUYohThdBz2CI",
@@ -22,7 +24,8 @@ var firebaseConfig = {
   databaseURL: "https://auntie-anns.firebaseio.com",
   projectId: "auntie-anns",
   storageBucket: "auntie-anns.appspot.com",
-  messagingSenderId: "567028472447"
+  messagingSenderId: "567028472447",
+
 };
 
 @NgModule({
@@ -38,8 +41,8 @@ var firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -54,8 +57,11 @@ var firebaseConfig = {
     StatusBar,
     SplashScreen,
      IonicStorageModule,
+     HttpClient,
+
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Storage
+    Storage,
+    FirebaseProvider
   ]
 })
 export class AppModule {}

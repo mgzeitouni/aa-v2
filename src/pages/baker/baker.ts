@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the BakerPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FirebaseProvider } from './../../providers/firebase/firebase';
+import { AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from '@firebase/util';
 
 @IonicPage()
 @Component({
@@ -15,11 +11,29 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BakerPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  public firebaseProvider: FirebaseProvider) {
+   // this.shoppingItems = this.firebaseProvider.getShoppingItems();
+ this.firebaseProvider.getProducts('Ca');
   }
+
+  newItem = '';
+
+  collection: AngularFirestoreCollection<any>;
+//  collection$: Observable<any> = this.collection.valueChanges();
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BakerPage');
   }
+
+  addItem() {
+    this.firebaseProvider.addItem('hey world');
+  }
+ 
+  removeItem(id) {
+    this.firebaseProvider.removeItem(id);
+  }
+
+  
+
 
 }

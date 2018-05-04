@@ -1,0 +1,29 @@
+
+
+<ion-menu id="leftMenu" type="overlay" [content]="content">
+<ion-header>
+      <ion-toolbar>
+        <ion-title>Store</ion-title>
+
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item menuClose (click)="chooseStore('auntieanns')">
+          <ion-icon item-left></ion-icon>
+         Auntie Anns
+        </ion-item>
+        <ion-item menuClose (click)="chooseStore('cinnabon')">
+            <ion-icon item-left></ion-icon>
+           Cinnabon
+          </ion-item>
+
+  
+      </ion-list>
+    </ion-content>
+  
+  </ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

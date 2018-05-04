@@ -1,0 +1,29 @@
+<ion-menu id="leftMenu" type="overlay" [content]="content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Pages</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item (click)="openPage(p)">
+          <ion-icon item-left></ion-icon>
+         Auntie Anns
+        </ion-item>
+        <ion-item (click)="openPage(p)">
+            <ion-icon item-left></ion-icon>
+           Cinnabon
+          </ion-item>
+
+  
+      </ion-list>
+    </ion-content>
+  
+  </ion-menu>
+
+
+<ion-tabs #content >
+  <ion-tab  [root]="tab1Root" tabTitle="Baker" tabIcon="information-circle"></ion-tab>
+  <ion-tab  [root]="tab2Root" tabTitle="Server" tabIcon="about"></ion-tab>
+</ion-tabs>

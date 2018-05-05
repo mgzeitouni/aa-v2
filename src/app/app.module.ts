@@ -12,11 +12,12 @@ import { ServerPage } from '../pages/server/server';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IonicStorageModule } from '@ionic/storage';
 import { ChoosestorePage } from '../pages/choosestore/choosestore';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireModule } from 'angularfire2';
-import { FirebaseProvider } from './../providers/firebase/firebase';
+
+ import { HttpModule } from '@angular/http';
+ import { AngularFireDatabaseModule } from 'angularfire2/database';
+ import { AngularFireModule } from 'angularfire2';
+ import { FirebaseProvider } from './../providers/firebase/firebase';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 var firebaseConfig = {
   apiKey: "AIzaSyCcW9VRqCQ_YUAuSYDp35IUYohThdBz2CI",
@@ -41,8 +42,9 @@ var firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    HttpModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

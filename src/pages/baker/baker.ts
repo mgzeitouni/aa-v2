@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
-import { AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from '@firebase/util';
+import { FirebaseListObservable } from 'angularfire2/database';
+import { Product } from '../../classes/product';
 
 @IonicPage()
 @Component({
@@ -12,17 +12,44 @@ import { Observable } from '@firebase/util';
 export class BakerPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,  public firebaseProvider: FirebaseProvider) {
-   // this.shoppingItems = this.firebaseProvider.getShoppingItems();
- this.firebaseProvider.getProducts('Ca');
+
   }
 
-  newItem = '';
+  cardsPerRow:number=2;
 
-  collection: AngularFirestoreCollection<any>;
-//  collection$: Observable<any> = this.collection.valueChanges();
+  products: Product[];
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BakerPage');
+    this.products = this.firebaseProvider.getProducts('Cinnabon')
+       this.pairUpProducts();
+    
+  }
+
+  pairUpProducts(){
+    var productPairs= [];
+    var object = [];
+
+    for (let product of this.products){
+      var index = this.products.indexOf(product);
+
+      object.push(product);
+      if( (index+1) % this.cardsPerRow == 0){
+
+        productPairs.push(object);
+        object =[];
+      }else{
+
+        if (index ==this.products.length-1){
+          productPairs.push(object);
+        }
+
+      }
+
+    }
+
+    this.products = productPairs;
+    console.log(productPairs);
   }
 
   addItem() {

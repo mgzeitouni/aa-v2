@@ -24,9 +24,18 @@ export class FirebaseProvider {
     this.afd.list('ovenSessions').push(product);
   }
 
-  getProducts(company: string){
-    console.log(this.afd.list('Products'))
- //   return this.afd.list('/oven/');
+  getProducts(company: string): Product[]{
+    var response = [];
+    this.afd.list('/Products/').subscribe(products=>{
+      for (let product of products){
+        if (product.company==company){
+          response.push(product)
+        }
+      }
+      return response;
+     })
+
+
   }
 
   addItem(name) {

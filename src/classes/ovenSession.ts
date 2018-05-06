@@ -8,5 +8,5 @@ export class ovenSession{
     public quantity:number,
     public time_left:string='',
     public end_time:number,
-public deleted:boolean=false;){}
+public deleted:boolean=false){}
 }

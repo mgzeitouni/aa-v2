@@ -29,8 +29,10 @@ export class ChoosestorePage {
   }
 
     chooseStore(store){
-      this.storage.set('store',store);
-      this.nav.setRoot(TabsPage);
+      this.storage.set('store',store).then(value=>{
+        this.nav.setRoot(TabsPage);
+      })
+
     }
 
 

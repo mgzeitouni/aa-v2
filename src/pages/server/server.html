@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title text-center>Server</ion-title>
+    <ion-title text-center>{{store}}: Server</ion-title>
     <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
@@ -16,6 +16,33 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+    <ion-list>
+      <ion-item>
+    <ion-row text-center>
+      <ion-col><h1><strong>Product</strong></h1></ion-col>
+      <ion-col><h1><strong>Quantity</strong></h1></ion-col>
+      <ion-col><h1><strong>Time To Ready</strong></h1></ion-col>
+ 
+    </ion-row>
+  </ion-item>
+
+    <ion-item *ngFor="let session of sessions ">
+      <ion-row >
+        <ion-col text-center>
+          {{session.product.name}}
+        </ion-col>
+        <ion-col text-center>
+        {{session.quantity.Quantity}}
+        </ion-col>
+        <ion-col text-center>
+          {{session.time_left}}
+        </ion-col>
+      </ion-row>
+
+    </ion-item>
+  </ion-list>
+
+<h1>{{timeLeft}}</h1>
 </ion-content>

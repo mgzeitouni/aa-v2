@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { Product } from '../../classes/product';
+import { Storage } from '@ionic/storage';
+import { ovenSession } from '../../classes/ovenSession';
+import { AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -11,20 +14,50 @@ import { Product } from '../../classes/product';
 })
 export class BakerPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  public firebaseProvider: FirebaseProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,  
+    public firebaseProvider: FirebaseProvider,
+  public storage:Storage,
+  private alertCtrl: AlertController) {
 
   }
 
   cardsPerRow:number=2;
 
   products: Product[];
+  store:string;
+  selectedProduct: Product;
+  quantity:number;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BakerPage');
-    this.products = this.firebaseProvider.getProducts('Cinnabon')
-       this.pairUpProducts();
-    
+
+    this.storage.get('store').then((store) =>{
+        this.store=store;
+      this.firebaseProvider.getAllProducts().subscribe(allProducts=>{
+
+        this.products = this.firebaseProvider.filterProducts(allProducts, store);
+
+        this.pairUpProducts();
+        
+      })
+    })
+
   }
+
+  startOven(){
+    const date = new Date();
+    var end_time = date.getTime()+(this.selectedProduct.oven_time*60000);
+    var session = new ovenSession(this.selectedProduct,  
+      date.toString(),
+       this.quantity,
+       "",
+       end_time)
+    this.firebaseProvider.addOvenSession(session);
+
+    }
+           
+        
 
   pairUpProducts(){
     var productPairs= [];
@@ -46,21 +79,42 @@ export class BakerPage {
 
       }
 
+     
+
     }
 
     this.products = productPairs;
-    console.log(productPairs);
+
   }
 
-  addItem() {
-    this.firebaseProvider.addItem('hey world');
-  }
- 
-  removeItem(id) {
-    this.firebaseProvider.removeItem(id);
-  }
 
-  
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Choose quantity',
+      inputs: [
 
+        {
+          name: 'Quantity',
+          placeholder: 'Quantity',
+          type: 'tel',
+        }
+      ],
+      cssClass: 'popUp',
+      buttons: [
+        {
+          text: 'Start Oven',
+          handler: data => {
+            this.quantity=data;
+          this.startOven();
+          }
+        }
+      ]
+    })
+    .present( {
+      //document.getElementById('autofocu').focus();
+      keyboardClose:false
+    })
+
+  }
 
 }

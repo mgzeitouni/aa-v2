@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Product } from '../../classes/product';
+import {Observable} from 'rxjs/Observable';
+import { ovenSession } from '../../classes/ovenSession';
  
 /*
   Generated class for the FirebaseProvider provider.
@@ -16,34 +18,46 @@ export class FirebaseProvider {
     console.log('Hello FirebaseProvider Provider');
   }
 
-  getShoppingItems() {
-    return this.afd.list('/shoppingItems/');
-  }
   
-  addOvenSession(product: Product){
-    this.afd.list('ovenSessions').push(product);
+  addOvenSession(session: ovenSession){
+
+    var d = new Date();
+    var date= d.getMonth()+1+"-"+d.getDate()+"-"+d.getFullYear();
+
+    this.afd.list('/ovenSessions/'+date+'/').push(session);
   }
 
-  getProducts(company: string): Product[]{
-    var response = [];
-    this.afd.list('/Products/').subscribe(products=>{
-      for (let product of products){
-        if (product.company==company){
-          response.push(product)
-        }
+  getAllProducts(){
+
+    return this.afd.list('/Products/');
+    
+  }
+
+  filterProducts(products, company){
+
+    var filteredProduct=[];
+    for (let product of products){
+      if (product.company==company){
+        filteredProduct.push(product)
       }
-      return response;
-     })
+    }
 
-
+    return filteredProduct
   }
 
-  addItem(name) {
-    this.afd.list('/shoppingItems/').push(name);
+  getOvenSessions():FirebaseListObservable<ovenSession[]>{
+    
+    var d = new Date();
+    var date= d.getMonth()+1+"-"+d.getDate()+"-"+d.getFullYear();
+
+    return this.afd.list('/ovenSessions/'+date+'/', {
+      query:{
+        orderByChild: 'end_time',
+        startAt: d.getTime()
+      }
+
+    });
   }
- 
-  removeItem(id) {
-    this.afd.list('/shoppingItems/').remove(id);
-  }
+
 
 }

@@ -117,34 +117,12 @@ export class ServerPage  {
 }
 
 
-private timer;
-private maxTime = 30;//get this from user input in the ionic time picker and convert it to seconds maybe.
-timeLeft:string;
-StartTimer() {
-    this.timer = setTimeout(x => 
-       {
-           if(this.maxTime <= 0) {}
-           this.maxTime -= 1;
-           this.timeLeft = this.secondsToMinutes(this.maxTime)
-           this.StartTimer();
 
-       }, 1000);
+hey:string='Not clicked';
 
+removeItem(){
+    this.hey='Clicked';
 
 }
-
-
-calculateTime(session):any{
-  var now = new Date();
-  var ovenTime = session.product.ovenTimer;
-  var end_time = new Date(session.start_time) + session.product.oven_time;
-  return end_time
-}
-
-secondsToMinutes(seconds:number): string{
-  const minutes: number = Math.floor(seconds / 60);
-  return minutes + ':' + (seconds - minutes * 60);
-}
-
 
 }

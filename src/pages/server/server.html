@@ -28,7 +28,9 @@
     </ion-row>
   </ion-item>
 
-    <ion-item *ngFor="let session of sessions ">
+  <ion-item-sliding *ngFor="let session of sessions">
+ 
+    <ion-item >
       <ion-row >
         <ion-col text-center>
           {{session.product.name}}
@@ -42,7 +44,13 @@
       </ion-row>
 
     </ion-item>
+    <ion-item-options>
+        <button danger (click)="removeItem(session)"><ion-icon trash></ion-icon> Delete</button>
+      </ion-item-options>
+  </ion-item-sliding>
+
+
   </ion-list>
 
-<h1>{{timeLeft}}</h1>
+
 </ion-content>

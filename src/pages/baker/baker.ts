@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer, Directive } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -89,7 +89,7 @@ export class BakerPage {
 
 
   presentPrompt() {
-    let alert = this.alertCtrl.create({
+    let alert=this.alertCtrl.create({
       title: 'Choose quantity',
       inputs: [
 
@@ -97,6 +97,7 @@ export class BakerPage {
           name: 'Quantity',
           placeholder: 'Quantity',
           type: 'tel',
+          id:'autofocus'
         }
       ],
       cssClass: 'popUp',
@@ -110,11 +111,17 @@ export class BakerPage {
         }
       ]
     })
-    .present( {
-      //document.getElementById('autofocu').focus();
-      keyboardClose:false
-    })
+
+    alert.present().then(() => {
+      const firstInput: any = document.querySelector('ion-alert input');
+      console.log(firstInput)
+      firstInput.focus();
+      return;
+    });
+
 
   }
+
+
 
 }

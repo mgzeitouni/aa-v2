@@ -106,23 +106,32 @@ export class ServerPage  {
     session.time_left=formatted;
     })
 
-    // Filter out those with 0 time left
-    var filtered = this.sessions.filter((session)=>
-      session.time_left !="00:00"
+
+
+this.filterSessions();
+
+}
+
+filterSessions(){
+  // Filter out those with 0 time left
+  var filtered = this.sessions.filter((session)=>
+  session.time_left !="00:00"
 
   )
 
- this.sessions=filtered
+  var filtered = filtered.filter((session)=>
+  session.deleted == false
+  )
+  this.sessions=filtered;
 
 }
 
 
-
 hey:string='Not clicked';
 
-removeItem(){
-    this.hey='Clicked';
-
+removeItem(session){
+  console.log('hereee')
+    this.firebaseProvider.removeSession(session);
 }
 
 }

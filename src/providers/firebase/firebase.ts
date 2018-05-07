@@ -24,9 +24,14 @@ export class FirebaseProvider {
     var d = new Date();
     var date= d.getMonth()+1+"-"+d.getDate()+"-"+d.getFullYear();
 
-    this.afd.list('/ovenSessions/'+date+'/').push(session);
+  this.afd.list('/ovenSessions/'+date+'/').push(session);
+ 
+  //   this.afd.object('/ovenSessions/'+date+'/'+newId).subscribe(doc=>{
+  //    // doc.update({newId,doc}).then(_ => console.log('update!'));
+  //    this.afd.object('/ovenSessions/'+date+'/'+newId).update(doc);
+  //  // console.log(doc);
+  // })
   }
-
   getAllProducts(){
 
     return this.afd.list('/Products/');
@@ -57,6 +62,17 @@ export class FirebaseProvider {
       }
 
     });
+  }
+
+  removeSession(session){
+
+    var d = new Date();
+    var date= d.getMonth()+1+"-"+d.getDate()+"-"+d.getFullYear();
+
+    session.deleted=true;
+    console.log(this.afd.object('/ovenSessions/'+date+'/'+session.$key).update(session));
+
+      
   }
 
 
